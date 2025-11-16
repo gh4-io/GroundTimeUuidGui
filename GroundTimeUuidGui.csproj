@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <!-- Ensure OpenFlights .dat files (if present under /data) are converted to CSV
+       before resources are prepared, so the latest airports.csv/operators.csv
+       are embedded into the assembly. -->
+  <Target Name="GenerateOpenFlightsCsv" BeforeTargets="PrepareResources">
+    <Message Text="Running OpenFlights .dat -> CSV conversion (convert-openflights.ps1)..." Importance="high" />
+    <Exec Command="powershell -ExecutionPolicy Bypass -File &quot;$(MSBuildProjectDirectory)\scripts\convert-openflights.ps1&quot; &quot;$(MSBuildProjectDirectory)&quot;" />
+  </Target>
+
+  <!-- Embed the generated CSVs inside the EXE so they act as the built-in
+       directory data even when no external CSVs are deployed next to the EXE. -->
+  <ItemGroup>
+    <EmbeddedResource Include="airports.csv" />
+    <EmbeddedResource Include="operators.csv" />
+  </ItemGroup>
+</Project>
