@@ -63,7 +63,7 @@ namespace GroundTimeUuidGui
         private static void LoadFromCsv(string path, Dictionary<string, OperatorInfo> dict)
         {
             using var reader = new StreamReader(path);
-            MergeFromCsv(reader, dict, "embedded");
+            MergeFromCsv(reader, dict, "external");
         }
 
         /// <summary>
@@ -95,7 +95,7 @@ namespace GroundTimeUuidGui
                     return false;
 
                 using var reader = new StreamReader(stream);
-                MergeFromCsv(reader, dict, "external");
+                MergeFromCsv(reader, dict, "embedded");
                 return dict.Count > 0;
             }
             catch
