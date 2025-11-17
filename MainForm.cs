@@ -112,8 +112,8 @@ namespace GroundTimeUuidGui
             if (_darkMode)
             {
                 // Chrome-like dark theme
-                this.BackColor = Color.FromArgb(32, 33, 36);   // #202124
-                this.ForeColor = Color.FromArgb(232, 234, 237); // #E8EAED
+                this.BackColor = Color.FromArgb(32, 33, 36);   // #282C34
+                this.ForeColor = Color.FromArgb(232, 234, 237); // #ABB2BF
 
                 foreach (Control ctl in GetAllControls(this))
                 {
@@ -162,15 +162,20 @@ namespace GroundTimeUuidGui
 
         private static void ApplyDarkThemeToControl(Control ctl)
         {
-            // Chrome-like dark colors
-            // Background: #202124 (32,33,36) and #303134 (48,49,52)
-            // Primary text: #E8EAED (232,234,237)
-            // Secondary text: #9AA0A6 (154,160,166)
             switch (ctl)
             {
                 case TextBox or ComboBox:
-                    ctl.BackColor = Color.FromArgb(32, 33, 36);
-                    ctl.ForeColor = Color.FromArgb(232, 234, 237);
+                    if (ctl is TextBox tb && tb.ReadOnly)
+                    {
+                        // Slightly lighter "card" gray and dulled text
+                        ctl.BackColor = Color.FromArgb(48, 49, 52);     // #303134
+                        ctl.ForeColor = Color.FromArgb(189, 193, 198);  // #BDC1C6
+                    }
+                    else
+                    {
+                        ctl.BackColor = Color.FromArgb(32, 33, 36);     // #202124
+                        ctl.ForeColor = Color.FromArgb(232, 234, 237);  // #E8EAED
+                    }
                     break;
 
                 case Button or CheckBox:
@@ -180,10 +185,9 @@ namespace GroundTimeUuidGui
 
                 case Label:
                     ctl.BackColor = Color.Transparent;
-                    // Info labels get dulled; others get primary text color
                     if (ctl.Name == "lblAirportInfo" || ctl.Name == "lblOperatorInfo")
                     {
-                        ctl.ForeColor = Color.FromArgb(154, 160, 166);
+                        ctl.ForeColor = Color.FromArgb(154, 160, 166); // dulled
                     }
                     else
                     {
@@ -197,7 +201,6 @@ namespace GroundTimeUuidGui
                     break;
 
                 default:
-                    // leave other controls mostly alone
                     break;
             }
         }
@@ -207,20 +210,19 @@ namespace GroundTimeUuidGui
             switch (ctl)
             {
                 case TextBox or ComboBox:
-                    ctl.BackColor = SystemColors.Window;
-                    ctl.ForeColor = SystemColors.WindowText;
-                    break;
-
-                case Label:
-                    ctl.BackColor = SystemColors.Control;
-                    // Info labels use GrayText to appear dulled, like original v11
-                    if (ctl.Name == "lblAirportInfo" || ctl.Name == "lblOperatorInfo")
+                    if (ctl is TextBox tb && tb.ReadOnly &&
+                        (tb.Name == "txtIsoPreview" || tb.Name == "txtUuid"))
                     {
-                        ctl.ForeColor = SystemColors.GrayText;
+                        // Shaded output look in light mode (Rev11-style)
+                        tb.BackColor = SystemColors.ControlLight;
+                        tb.ForeColor = SystemColors.GrayText;
+                        tb.BorderStyle = BorderStyle.FixedSingle;
                     }
                     else
                     {
-                        ctl.ForeColor = SystemColors.ControlText;
+                        // Normal editable inputs
+                        ctl.BackColor = SystemColors.Window;
+                        ctl.ForeColor = SystemColors.WindowText;
                     }
                     break;
 

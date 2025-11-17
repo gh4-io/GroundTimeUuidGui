@@ -110,7 +110,8 @@ namespace GroundTimeUuidGui
         /// </summary>
         private static void MergeFromCsv(TextReader reader, Dictionary<string, OperatorInfo> dict, string sourceLabel)
         {
-            // Expecting header: AirlineID,Name,Alias,IATA,ICAO,Country
+            // CSV format (OpenFlights-like):
+            // AirlineID,Name,Alias,IATA,ICAO,Country
             string? header = reader.ReadLine(); // discard header
 
             while (true)
@@ -137,9 +138,17 @@ namespace GroundTimeUuidGui
                 if (string.IsNullOrEmpty(icao) && string.IsNullOrEmpty(iata))
                     continue;
 
+                // Human-friendly display name
                 string displayName = $"{name}, {country}".Trim(' ', ',');
 
-                var info = new OperatorInfo(displayName, sourceLabel);
+                // Canonical code: prefer ICAO, then IATA, then AirlineID
+                string canonical =
+                    !string.IsNullOrEmpty(icao) ? icao.ToUpperInvariant() :
+                    !string.IsNullOrEmpty(iata) ? iata.ToUpperInvariant() :
+                    airlineId;
+
+                // NOTE: OperatorInfo has (CanonicalIcao, Name)
+                var info = new OperatorInfo(canonical, displayName);
 
                 void AddKey(string code)
                 {
@@ -153,15 +162,15 @@ namespace GroundTimeUuidGui
                     dict[key] = info;
                 }
 
-                // ICAO and IATA are always valid lookup keys.
+                // ICAO and IATA are valid lookup keys.
                 AddKey(icao);
                 AddKey(iata);
 
-                // The OpenFlights "Alias" field is often a human-readable alias.
-                // If you want to allow it for lookup, keep this; otherwise you can comment it out.
+                // OpenFlights "Alias" can also be used as a lookup key if present.
                 AddKey(alias);
             }
         }
+
 
         private static void LoadBuiltIn(Dictionary<string, OperatorInfo> dict)
         {

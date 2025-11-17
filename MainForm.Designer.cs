@@ -56,7 +56,7 @@ namespace GroundTimeUuidGui
             this.lblReg.Name = "lblReg";
             this.lblReg.Size = new System.Drawing.Size(150, 23);
             this.lblReg.TabIndex = 1;
-            this.lblReg.Text = "AC REG:";
+            this.lblReg.Text = "AIRCRAFT REG:";
             this.lblReg.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // lblStation
@@ -206,7 +206,7 @@ namespace GroundTimeUuidGui
             // 
             this.lblOperatorInfo.AutoSize = true;
             this.lblOperatorInfo.ForeColor = System.Drawing.SystemColors.GrayText;
-            this.lblOperatorInfo.Location = new System.Drawing.Point(256, 19);
+            this.lblOperatorInfo.Location = new System.Drawing.Point(226, 19);
             this.lblOperatorInfo.Name = "lblOperatorInfo";
             this.lblOperatorInfo.Size = new System.Drawing.Size(0, 15);
             this.lblOperatorInfo.TabIndex = 17;
