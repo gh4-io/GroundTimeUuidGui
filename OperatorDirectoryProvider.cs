@@ -21,7 +21,7 @@ namespace GroundTimeUuidGui
     /// </summary>
     public static class OperatorDirectoryProvider
     {
-        
+
         public static IReadOnlyDictionary<string, OperatorInfo> LoadOperators()
         {
             var dict = new Dictionary<string, OperatorInfo>(StringComparer.OrdinalIgnoreCase);
@@ -60,10 +60,10 @@ namespace GroundTimeUuidGui
         }
 
 
-private static void LoadFromCsv(string path, Dictionary<string, OperatorInfo> dict)
+        private static void LoadFromCsv(string path, Dictionary<string, OperatorInfo> dict)
         {
             using var reader = new StreamReader(path);
-            MergeFromCsv(reader, dict);
+            MergeFromCsv(reader, dict, "embedded");
         }
 
         /// <summary>
@@ -95,7 +95,7 @@ private static void LoadFromCsv(string path, Dictionary<string, OperatorInfo> di
                     return false;
 
                 using var reader = new StreamReader(stream);
-                MergeFromCsv(reader, dict);
+                MergeFromCsv(reader, dict, "external");
                 return dict.Count > 0;
             }
             catch
@@ -108,9 +108,10 @@ private static void LoadFromCsv(string path, Dictionary<string, OperatorInfo> di
         /// Shared CSV parsing used for both embedded and external operators.csv.
         /// Rows later in the stream win for overlapping codes.
         /// </summary>
-        private static void MergeFromCsv(TextReader reader, Dictionary<string, OperatorInfo> dict)
+        private static void MergeFromCsv(TextReader reader, Dictionary<string, OperatorInfo> dict, string sourceLabel)
         {
-            string? header = reader.ReadLine(); // skip header
+            // Expecting header: AirlineID,Name,Alias,IATA,ICAO,Country
+            string? header = reader.ReadLine(); // discard header
 
             while (true)
             {
@@ -121,21 +122,44 @@ private static void LoadFromCsv(string path, Dictionary<string, OperatorInfo> di
                 if (string.IsNullOrWhiteSpace(line))
                     continue;
 
-                // Naive CSV split (no embedded commas expected in this simple schema)
                 string[] parts = line.Split(',');
-
-                if (parts.Length < 4)
+                if (parts.Length < 6)
                     continue;
 
-                string code = parts[1].Trim();
-                string canonical = parts[2].Trim().ToUpperInvariant();
-                string name = parts[3].Trim();
+                string airlineId = parts[0].Trim();
+                string name = parts[1].Trim();
+                string alias = parts[2].Trim();
+                string iata = parts[3].Trim();
+                string icao = parts[4].Trim();
+                string country = parts[5].Trim();
 
-                if (string.IsNullOrEmpty(code) || string.IsNullOrEmpty(canonical))
+                // Skip entries that have neither code.
+                if (string.IsNullOrEmpty(icao) && string.IsNullOrEmpty(iata))
                     continue;
 
-                var info = new OperatorInfo(canonical, name);
-                dict[code] = info;
+                string displayName = $"{name}, {country}".Trim(' ', ',');
+
+                var info = new OperatorInfo(displayName, sourceLabel);
+
+                void AddKey(string code)
+                {
+                    if (string.IsNullOrWhiteSpace(code))
+                        return;
+
+                    string key = code.Trim().ToUpperInvariant();
+                    if (key.Length == 0)
+                        return;
+
+                    dict[key] = info;
+                }
+
+                // ICAO and IATA are always valid lookup keys.
+                AddKey(icao);
+                AddKey(iata);
+
+                // The OpenFlights "Alias" field is often a human-readable alias.
+                // If you want to allow it for lookup, keep this; otherwise you can comment it out.
+                AddKey(alias);
             }
         }
 
@@ -146,17 +170,17 @@ private static void LoadFromCsv(string path, Dictionary<string, OperatorInfo> di
             dict["DHLUK"] = new OperatorInfo("DHK", "DHL AIR UK");
 
             dict["SIA"] = new OperatorInfo("SIA", "SINGAPORE AIRLINES");
-            dict["SQ"]  = new OperatorInfo("SIA", "SINGAPORE AIRLINES");
+            dict["SQ"] = new OperatorInfo("SIA", "SINGAPORE AIRLINES");
 
-            dict["3S"]  = new OperatorInfo("3S", "AEROLOGIC");
+            dict["3S"] = new OperatorInfo("3S", "AEROLOGIC");
             dict["BOX"] = new OperatorInfo("3S", "AEROLOGIC");
 
             dict["CKS"] = new OperatorInfo("CKS", "KALITTA AIR");
-            dict["K4"]  = new OperatorInfo("CKS", "KALITTA AIR");
+            dict["K4"] = new OperatorInfo("CKS", "KALITTA AIR");
 
             dict["CSB"] = new OperatorInfo("CSB", "21 AIR");
-            dict["2I"]  = new OperatorInfo("CSB", "21 AIR");
-            dict["21"]  = new OperatorInfo("CSB", "21 AIR");
+            dict["2I"] = new OperatorInfo("CSB", "21 AIR");
+            dict["21"] = new OperatorInfo("CSB", "21 AIR");
 
             dict["KFS"] = new OperatorInfo("KFS", "KALITTA CHARTERS");
             dict["CSJ"] = new OperatorInfo("KFS", "KALITTA CHARTERS");

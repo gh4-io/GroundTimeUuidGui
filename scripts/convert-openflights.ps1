@@ -6,7 +6,7 @@ if (-not $ProjectDir -or $ProjectDir -eq "") {
     $ProjectDir = Split-Path -Parent $MyInvocation.MyCommand.Path
 }
 
-Write-Host "=== GroundTimeUuidGui :: OpenFlights .dat -> CSV converter ==="
+Write-Host "=== GroundTimeUuidGui :: OpenFlights .dat -> CSV (Rev21) ==="
 
 $root    = $ProjectDir
 $dataDir = Join-Path $root "data"
@@ -18,120 +18,109 @@ $airportsCsv  = Join-Path $root "airports.csv"
 $operatorsCsv = Join-Path $root "operators.csv"
 
 #
-# Airports: airports.dat -> airports.csv
-# Expected output schema for airports.csv:
-#   code_type,code,canonical_icao,name
-# where:
-#   - code_type: ICAO or IATA
-#   - code:      alias (e.g. KMIA, MIA)
-#   - canonical_icao: primary ICAO-like code used for grouping
-#   - name:      display text (no commas to keep parsing simple)
+# Helper: sanitize text so we don't have commas in text fields
+#
+function Sanitize-Text([string]$value) {
+    if (-not $value) { return "" }
+    $v = $value.Trim('"')
+    # Replace commas with spaces so we can safely split on comma later.
+    return $v.Replace(",", " ")
+}
+
+#
+# AIRPORTS
+# Generate airports.csv with OpenFlights-like columns:
+#   AirportID,Name,City,Country,IATA,ICAO
 #
 if (Test-Path $airportsDat) {
-    Write-Host "Generating airports.csv from" $airportsDat
+    Write-Host "Generating airports.csv from $airportsDat"
 
-    $lines = Get-Content $airportsDat
-    $outAirports = @()
-    $outAirports += "code_type,code,canonical_icao,name"
+    $airportHeader = @(
+        "AirportID","Name","City","Country",
+        "IATA","ICAO","Latitude","Longitude",
+        "Altitude","TimezoneOffset","DST","TzTimeZone",
+        "Type","Source"
+    )
 
-    foreach ($line in $lines) {
-        if ([string]::IsNullOrWhiteSpace($line)) { continue }
+    $airports = Import-Csv -Path $airportsDat -Header $airportHeader
 
-        $parts = $line.Split(',')
-        if ($parts.Count -lt 7) { continue }
+    $outLines = @()
+    $outLines += "AirportID,Name,City,Country,IATA,ICAO"
 
-        $name    = $parts[1].Trim('"')
-        $city    = $parts[2].Trim('"')
-        $country = $parts[3].Trim('"')
-        $iata    = $parts[4].Trim('"')
-        $icao    = $parts[5].Trim('"')
+    foreach ($a in $airports) {
+        $iata = $a.IATA
+        $icao = $a.ICAO
 
-        # Choose a canonical code: prefer ICAO, then IATA
-        $canonical = $null
-        if ($icao -and $icao -ne "\N") {
-            $canonical = $icao
-        } elseif ($iata -and $iata -ne "\N") {
-            $canonical = $iata
+        # Skip entries that have neither ICAO nor IATA
+        if ([string]::IsNullOrWhiteSpace($iata) -and [string]::IsNullOrWhiteSpace($icao)) {
+            continue
         }
 
-        if (-not $canonical) { continue }
+        $airportId = $a.AirportID.Trim('"')
+        $name      = Sanitize-Text $a.Name
+        $city      = Sanitize-Text $a.City
+        $country   = Sanitize-Text $a.Country
+        $iata      = $iata.Trim('"')
+        $icao      = $icao.Trim('"')
 
-        # Build a simple display name and strip commas so the CSV remains 4 columns.
-        $display = "$name - $city - $country"
-        $display = $display.Replace(',', ' ')
+        $line = "{0},{1},{2},{3},{4},{5}" -f `
+            $airportId, $name, $city, $country, $iata, $icao
 
-        if ($icao -and $icao -ne "\N") {
-            $outAirports += ("ICAO,{0},{1},{2}" -f $icao, $canonical, $display)
-        }
-
-        if ($iata -and $iata -ne "\N") {
-            $outAirports += ("IATA,{0},{1},{2}" -f $iata, $canonical, $display)
-        }
+        $outLines += $line
     }
 
-    $outAirports | Set-Content -Path $airportsCsv -Encoding UTF8
-} else {
-    Write-Host "NOTE: airports.dat not found at $airportsDat (download from https://openflights.org/ and place it there)."
+    $outLines | Set-Content -Path $airportsCsv -Encoding UTF8
+}
+else {
+    Write-Host "NOTE: airports.dat not found at $airportsDat"
 }
 
 #
-# Operators: airlines.dat -> operators.csv
-# Expected output schema for operators.csv:
-#   code_type,code,canonical_icao,name
-# where:
-#   - code_type: ICAO or IATA
-#   - code:      alias (e.g. SIA, SQ)
-#   - canonical_icao: primary ICAO-like code used for grouping
-#   - name:      display text (no commas to keep parsing simple)
+# AIRLINES / OPERATORS
+# Generate operators.csv with OpenFlights-like columns:
+#   AirlineID,Name,Alias,IATA,ICAO,Country
 #
 if (Test-Path $airlinesDat) {
-    Write-Host "Generating operators.csv from" $airlinesDat
+    Write-Host "Generating operators.csv from $airlinesDat"
 
-    $lines = Get-Content $airlinesDat
-    $outOperators = @()
-    $outOperators += "code_type,code,canonical_icao,name"
+    $airlineHeader = @(
+        "AirlineID","Name","Alias","IATA",
+        "ICAO","Callsign","Country","Active"
+    )
 
-    foreach ($line in $lines) {
-        if ([string]::IsNullOrWhiteSpace($line)) { continue }
+    $airlines = Import-Csv -Path $airlinesDat -Header $airlineHeader
 
-        $parts = $line.Split(',')
-        if ($parts.Count -lt 8) { continue }
+    $outLines = @()
+    $outLines += "AirlineID,Name,Alias,IATA,ICAO,Country"
 
-        $name    = $parts[1].Trim('"')
-        $alias   = $parts[2].Trim('"')
-        $iata    = $parts[3].Trim('"')
-        $icao    = $parts[4].Trim('"')
-        $country = $parts[6].Trim('"')
+    foreach ($o in $airlines) {
 
-        # Choose canonical ICAO-like identifier: prefer ICAO, then IATA.
-        $canonical = $null
-        if ($icao -and $icao -ne "\N") {
-            $canonical = $icao
-        } elseif ($iata -and $iata -ne "\N") {
-            $canonical = $iata
+        $iata = $o.IATA
+        $icao = $o.ICAO
+        $alias = $o.Alias
+
+        # Skip entries that have neither ICAO nor IATA
+        if ([string]::IsNullOrWhiteSpace($iata) -and [string]::IsNullOrWhiteSpace($icao)) {
+            continue
         }
 
-        if (-not $canonical) { continue }
+        $airlineId = $o.AirlineID.Trim('"')
+        $name      = Sanitize-Text $o.Name
+        $alias     = Sanitize-Text $alias
+        $iata      = $iata.Trim('"')
+        $icao      = $icao.Trim('"')
+        $country   = Sanitize-Text $o.Country
 
-        $display = "$name - $country"
-        $display = $display.Replace(',', ' ')
+        $line = "{0},{1},{2},{3},{4},{5}" -f `
+            $airlineId, $name, $alias, $iata, $icao, $country
 
-        if ($icao -and $icao -ne "\N") {
-            $outOperators += ("ICAO,{0},{1},{2}" -f $icao, $canonical, $display)
-        }
-
-        if ($iata -and $iata -ne "\N") {
-            $outOperators += ("IATA,{0},{1},{2}" -f $iata, $canonical, $display)
-        }
-
-        if ($alias -and $alias -ne "\N") {
-            $outOperators += ("ALIAS,{0},{1},{2}" -f $alias, $canonical, $display)
-        }
+        $outLines += $line
     }
 
-    $outOperators | Set-Content -Path $operatorsCsv -Encoding UTF8
-} else {
-    Write-Host "NOTE: airlines.dat not found at $airlinesDat (download from https://openflights.org/ and place it there)."
+    $outLines | Set-Content -Path $operatorsCsv -Encoding UTF8
+}
+else {
+    Write-Host "NOTE: airlines.dat not found at $airlinesDat"
 }
 
-Write-Host "OpenFlights conversion complete."
+Write-Host "OpenFlights conversion complete (Rev21)."

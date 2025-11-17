@@ -188,7 +188,7 @@ namespace GroundTimeUuidGui
             // 
             this.lblAirportInfo.AutoSize = true;
             this.lblAirportInfo.ForeColor = System.Drawing.SystemColors.GrayText;
-            this.lblAirportInfo.Location = new System.Drawing.Point(256, 83);
+            this.lblAirportInfo.Location = new System.Drawing.Point(226, 83);
             this.lblAirportInfo.Name = "lblAirportInfo";
             this.lblAirportInfo.Size = new System.Drawing.Size(0, 15);
             this.lblAirportInfo.TabIndex = 16;
@@ -197,7 +197,7 @@ namespace GroundTimeUuidGui
             // 
             this.lblAirportSource.AutoSize = true;
             this.lblAirportSource.ForeColor = System.Drawing.SystemColors.GrayText;
-            this.lblAirportSource.Location = new System.Drawing.Point(256, 100);
+            this.lblAirportSource.Location = new System.Drawing.Point(226, 100);
             this.lblAirportSource.Name = "lblAirportSource";
             this.lblAirportSource.Size = new System.Drawing.Size(0, 12);
             this.lblAirportSource.TabIndex = 17;

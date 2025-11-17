@@ -21,7 +21,7 @@ namespace GroundTimeUuidGui
     /// </summary>
     public static class AirportDirectoryProvider
     {
-        
+
         public static IReadOnlyDictionary<string, AirportInfo> LoadAirports()
         {
             var dict = new Dictionary<string, AirportInfo>(StringComparer.OrdinalIgnoreCase);
@@ -60,10 +60,10 @@ namespace GroundTimeUuidGui
         }
 
 
-private static void LoadFromCsv(string path, Dictionary<string, AirportInfo> dict)
+        private static void LoadFromCsv(string path, Dictionary<string, AirportInfo> dict)
         {
             using var reader = new StreamReader(path);
-            MergeFromCsv(reader, dict);
+            MergeFromCsv(reader, dict, "embedded");
         }
 
         /// <summary>
@@ -95,7 +95,7 @@ private static void LoadFromCsv(string path, Dictionary<string, AirportInfo> dic
                     return false;
 
                 using var reader = new StreamReader(stream);
-                MergeFromCsv(reader, dict);
+                MergeFromCsv(reader, dict, "external");
                 return dict.Count > 0;
             }
             catch
@@ -108,9 +108,10 @@ private static void LoadFromCsv(string path, Dictionary<string, AirportInfo> dic
         /// Shared CSV parsing used for both embedded and external airports.csv.
         /// Rows later in the stream win for overlapping codes.
         /// </summary>
-        private static void MergeFromCsv(TextReader reader, Dictionary<string, AirportInfo> dict)
+        private static void MergeFromCsv(TextReader reader, Dictionary<string, AirportInfo> dict, string sourceLabel)
         {
-            string? header = reader.ReadLine(); // skip header
+            // Expecting header: AirportID,Name,City,Country,IATA,ICAO
+            string? header = reader.ReadLine(); // discard header
 
             while (true)
             {
@@ -121,20 +122,47 @@ private static void LoadFromCsv(string path, Dictionary<string, AirportInfo> dic
                 if (string.IsNullOrWhiteSpace(line))
                     continue;
 
+                // Because the converter strips commas from text fields, we can safely split on commas.
                 string[] parts = line.Split(',');
-
-                if (parts.Length < 4)
+                if (parts.Length < 6)
                     continue;
 
-                string code = parts[1].Trim();
-                string canonical = parts[2].Trim().ToUpperInvariant();
-                string name = parts[3].Trim();
+                string airportId = parts[0].Trim();
+                string name = parts[1].Trim();
+                string city = parts[2].Trim();
+                string country = parts[3].Trim();
+                string iata = parts[4].Trim();
+                string icao = parts[5].Trim();
 
-                if (string.IsNullOrEmpty(code) || string.IsNullOrEmpty(canonical))
+                // Skip if both codes are missing.
+                if (string.IsNullOrEmpty(icao) && string.IsNullOrEmpty(iata))
                     continue;
 
-                var info = new AirportInfo(canonical, name);
-                dict[code] = info;
+                string displayName = $"{name}, {city}, {country}".Trim(' ', ',');
+
+                // Choose a canonical code for internal reference only.
+                string canonical =
+                    !string.IsNullOrEmpty(icao) ? icao.ToUpperInvariant() :
+                    !string.IsNullOrEmpty(iata) ? iata.ToUpperInvariant() :
+                    airportId;
+
+                var info = new AirportInfo(canonical, displayName, sourceLabel);
+
+                void AddKey(string code)
+                {
+                    if (string.IsNullOrWhiteSpace(code))
+                        return;
+
+                    string key = code.Trim().ToUpperInvariant();
+                    if (key.Length == 0)
+                        return;
+
+                    dict[key] = info;
+                }
+
+                // Both ICAO and IATA are valid lookup keys.
+                AddKey(icao);
+                AddKey(iata);
             }
         }
 
@@ -142,22 +170,22 @@ private static void LoadFromCsv(string path, Dictionary<string, AirportInfo> dic
         {
             // Minimal set for when CSV is not present; safe defaults for your common stations.
             dict["KCVG"] = new AirportInfo("KCVG", "CINCINNATI/NORTHERN KENTUCKY INTL, USA");
-            dict["CVG"]  = new AirportInfo("KCVG", "CINCINNATI/NORTHERN KENTUCKY INTL, USA");
+            dict["CVG"] = new AirportInfo("KCVG", "CINCINNATI/NORTHERN KENTUCKY INTL, USA");
 
             dict["KJFK"] = new AirportInfo("KJFK", "JOHN F. KENNEDY INTL, NEW YORK, USA");
-            dict["JFK"]  = new AirportInfo("KJFK", "JOHN F. KENNEDY INTL, NEW YORK, USA");
+            dict["JFK"] = new AirportInfo("KJFK", "JOHN F. KENNEDY INTL, NEW YORK, USA");
 
             dict["KSDF"] = new AirportInfo("KSDF", "LOUISVILLE MUHAMMAD ALI INTL, USA");
-            dict["SDF"]  = new AirportInfo("KSDF", "LOUISVILLE MUHAMMAD ALI INTL, USA");
+            dict["SDF"] = new AirportInfo("KSDF", "LOUISVILLE MUHAMMAD ALI INTL, USA");
 
             dict["EDDF"] = new AirportInfo("EDDF", "FRANKFURT/MAIN INTL, GERMANY");
-            dict["FRA"]  = new AirportInfo("EDDF", "FRANKFURT/MAIN INTL, GERMANY");
+            dict["FRA"] = new AirportInfo("EDDF", "FRANKFURT/MAIN INTL, GERMANY");
 
             dict["EGLL"] = new AirportInfo("EGLL", "LONDON HEATHROW, UNITED KINGDOM");
-            dict["LHR"]  = new AirportInfo("EGLL", "LONDON HEATHROW, UNITED KINGDOM");
+            dict["LHR"] = new AirportInfo("EGLL", "LONDON HEATHROW, UNITED KINGDOM");
 
             dict["WSSS"] = new AirportInfo("WSSS", "SINGAPORE CHANGI, SINGAPORE");
-            dict["SIN"]  = new AirportInfo("WSSS", "SINGAPORE CHANGI, SINGAPORE");
+            dict["SIN"] = new AirportInfo("WSSS", "SINGAPORE CHANGI, SINGAPORE");
         }
     }
 }
