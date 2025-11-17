@@ -17,261 +17,273 @@ namespace GroundTimeUuidGui
 
         private void InitializeComponent()
         {
-            this.lblCustomer = new System.Windows.Forms.Label();
-            this.lblReg = new System.Windows.Forms.Label();
-            this.lblStation = new System.Windows.Forms.Label();
-            this.lblDate = new System.Windows.Forms.Label();
-            this.lblTime = new System.Windows.Forms.Label();
-            this.txtCustomerCode = new System.Windows.Forms.TextBox();
-            this.txtReg = new System.Windows.Forms.TextBox();
-            this.txtStation = new System.Windows.Forms.TextBox();
-            this.txtDate = new System.Windows.Forms.TextBox();
-            this.btnCalendar = new System.Windows.Forms.Button();
-            this.txtTime = new System.Windows.Forms.TextBox();
-            this.btnGenerate = new System.Windows.Forms.Button();
-            this.lblUuid = new System.Windows.Forms.Label();
-            this.txtUuid = new System.Windows.Forms.TextBox();
-            this.lblIsoPreview = new System.Windows.Forms.Label();
-            this.txtIsoPreview = new System.Windows.Forms.TextBox();
-            this.lblAirportInfo = new System.Windows.Forms.Label();
-            this.lblAirportSource = new System.Windows.Forms.Label();
-            this.lblOperatorInfo = new System.Windows.Forms.Label();
-            this.monthCalendar = new System.Windows.Forms.MonthCalendar();
-            this.infoIcon = new System.Windows.Forms.Label();
-            this.themeIcon = new System.Windows.Forms.Label();
-            this.SuspendLayout();
+            lblCustomer = new Label();
+            lblReg = new Label();
+            lblStation = new Label();
+            lblDate = new Label();
+            lblTime = new Label();
+            txtCustomerCode = new TextBox();
+            txtReg = new TextBox();
+            txtStation = new TextBox();
+            txtDate = new TextBox();
+            btnCalendar = new Button();
+            txtTime = new TextBox();
+            btnGenerate = new Button();
+            lblUuid = new Label();
+            txtUuid = new TextBox();
+            lblIsoPreview = new Label();
+            txtIsoPreview = new TextBox();
+            lblAirportInfo = new Label();
+            lblAirportSource = new Label();
+            lblOperatorInfo = new Label();
+            monthCalendar = new MonthCalendar();
+            infoIcon = new Label();
+            themeIcon = new Label();
+            label1 = new Label();
+            SuspendLayout();
             // 
             // lblCustomer
             // 
-            this.lblCustomer.Location = new System.Drawing.Point(10, 15);
-            this.lblCustomer.Name = "lblCustomer";
-            this.lblCustomer.Size = new System.Drawing.Size(150, 23);
-            this.lblCustomer.TabIndex = 0;
-            this.lblCustomer.Text = "CUSTOMER CODE:";
-            this.lblCustomer.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            lblCustomer.Location = new Point(10, 15);
+            lblCustomer.Name = "lblCustomer";
+            lblCustomer.Size = new Size(88, 23);
+            lblCustomer.TabIndex = 0;
+            lblCustomer.Text = "CUSTOMER CODE:";
+            lblCustomer.TextAlign = ContentAlignment.MiddleRight;
             // 
             // lblReg
             // 
-            this.lblReg.Location = new System.Drawing.Point(10, 47);
-            this.lblReg.Name = "lblReg";
-            this.lblReg.Size = new System.Drawing.Size(150, 23);
-            this.lblReg.TabIndex = 1;
-            this.lblReg.Text = "AIRCRAFT REG:";
-            this.lblReg.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            lblReg.Location = new Point(10, 47);
+            lblReg.Name = "lblReg";
+            lblReg.Size = new Size(88, 23);
+            lblReg.TabIndex = 1;
+            lblReg.Text = "AIRCRAFT REG:";
+            lblReg.TextAlign = ContentAlignment.MiddleRight;
             // 
             // lblStation
             // 
-            this.lblStation.Location = new System.Drawing.Point(10, 79);
-            this.lblStation.Name = "lblStation";
-            this.lblStation.Size = new System.Drawing.Size(150, 23);
-            this.lblStation.TabIndex = 2;
-            this.lblStation.Text = "STATION:";
-            this.lblStation.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            lblStation.Location = new Point(10, 79);
+            lblStation.Name = "lblStation";
+            lblStation.Size = new Size(88, 23);
+            lblStation.TabIndex = 2;
+            lblStation.Text = "STATION:";
+            lblStation.TextAlign = ContentAlignment.MiddleRight;
             // 
             // lblDate
             // 
-            this.lblDate.Location = new System.Drawing.Point(10, 111);
-            this.lblDate.Name = "lblDate";
-            this.lblDate.Size = new System.Drawing.Size(150, 23);
-            this.lblDate.TabIndex = 3;
-            this.lblDate.Text = "SCHEDULED DATE:";
-            this.lblDate.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            lblDate.Location = new Point(10, 111);
+            lblDate.Name = "lblDate";
+            lblDate.Size = new Size(88, 23);
+            lblDate.TabIndex = 3;
+            lblDate.Text = "SCHEDULED DATE:";
+            lblDate.TextAlign = ContentAlignment.MiddleRight;
             // 
             // lblTime
             // 
-            this.lblTime.Location = new System.Drawing.Point(10, 143);
-            this.lblTime.Name = "lblTime";
-            this.lblTime.Size = new System.Drawing.Size(150, 23);
-            this.lblTime.TabIndex = 4;
-            this.lblTime.Text = "SCHEDULED TIME:";
-            this.lblTime.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            lblTime.Location = new Point(10, 143);
+            lblTime.Name = "lblTime";
+            lblTime.Size = new Size(88, 23);
+            lblTime.TabIndex = 4;
+            lblTime.Text = "SCHEDULED TIME:";
+            lblTime.TextAlign = ContentAlignment.MiddleRight;
             // 
             // txtCustomerCode
             // 
-            this.txtCustomerCode.Location = new System.Drawing.Point(170, 15);
-            this.txtCustomerCode.Name = "txtCustomerCode";
-            this.txtCustomerCode.Size = new System.Drawing.Size(55, 23);
-            this.txtCustomerCode.TabIndex = 5;
+            txtCustomerCode.Location = new Point(104, 11);
+            txtCustomerCode.Name = "txtCustomerCode";
+            txtCustomerCode.Size = new Size(55, 23);
+            txtCustomerCode.TabIndex = 5;
             // 
             // txtReg
             // 
-            this.txtReg.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtReg.Location = new System.Drawing.Point(170, 47);
-            this.txtReg.Name = "txtReg";
-            this.txtReg.Size = new System.Drawing.Size(80, 23);
-            this.txtReg.TabIndex = 6;
+            txtReg.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            txtReg.Location = new Point(104, 43);
+            txtReg.Name = "txtReg";
+            txtReg.Size = new Size(20, 23);
+            txtReg.TabIndex = 6;
             // 
             // txtStation
             // 
-            this.txtStation.Location = new System.Drawing.Point(170, 79);
-            this.txtStation.Name = "txtStation";
-            this.txtStation.Size = new System.Drawing.Size(55, 23);
-            this.txtStation.TabIndex = 7;
+            txtStation.Location = new Point(104, 75);
+            txtStation.Name = "txtStation";
+            txtStation.Size = new Size(55, 23);
+            txtStation.TabIndex = 7;
             // 
             // txtDate
             // 
-            this.txtDate.Location = new System.Drawing.Point(170, 111);
-            this.txtDate.Name = "txtDate";
-            this.txtDate.PlaceholderText = "MM/DD/YYYY";
-            this.txtDate.Size = new System.Drawing.Size(120, 23);
-            this.txtDate.TabIndex = 8;
+            txtDate.Location = new Point(104, 107);
+            txtDate.Name = "txtDate";
+            txtDate.PlaceholderText = "MM/DD/YYYY";
+            txtDate.Size = new Size(120, 23);
+            txtDate.TabIndex = 8;
             // 
             // btnCalendar
             // 
-            this.btnCalendar.Location = new System.Drawing.Point(296, 111);
-            this.btnCalendar.Name = "btnCalendar";
-            this.btnCalendar.Size = new System.Drawing.Size(28, 23);
-            this.btnCalendar.TabIndex = 9;
-            this.btnCalendar.Text = "📅";
-            this.btnCalendar.UseVisualStyleBackColor = true;
-            this.btnCalendar.Click += new System.EventHandler(this.btnCalendar_Click);
+            btnCalendar.Location = new Point(230, 111);
+            btnCalendar.Name = "btnCalendar";
+            btnCalendar.Size = new Size(28, 23);
+            btnCalendar.TabIndex = 9;
+            btnCalendar.Text = "📅";
+            btnCalendar.UseVisualStyleBackColor = true;
+            btnCalendar.Click += btnCalendar_Click;
             // 
             // txtTime
             // 
-            this.txtTime.Location = new System.Drawing.Point(170, 143);
-            this.txtTime.Name = "txtTime";
-            this.txtTime.PlaceholderText = "HH:MM";
-            this.txtTime.Size = new System.Drawing.Size(80, 23);
-            this.txtTime.TabIndex = 10;
+            txtTime.Location = new Point(104, 139);
+            txtTime.Name = "txtTime";
+            txtTime.PlaceholderText = "HH:MM";
+            txtTime.Size = new Size(80, 23);
+            txtTime.TabIndex = 10;
             // 
             // btnGenerate
             // 
-            this.btnGenerate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnGenerate.Location = new System.Drawing.Point(355, 143);
-            this.btnGenerate.Name = "btnGenerate";
-            this.btnGenerate.Size = new System.Drawing.Size(175, 27);
-            this.btnGenerate.TabIndex = 11;
-            this.btnGenerate.Text = "GENERATE UUID";
-            this.btnGenerate.UseVisualStyleBackColor = true;
-            this.btnGenerate.Click += new System.EventHandler(this.btnGenerate_Click);
+            btnGenerate.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnGenerate.Location = new Point(297, 139);
+            btnGenerate.Name = "btnGenerate";
+            btnGenerate.Size = new Size(175, 27);
+            btnGenerate.TabIndex = 11;
+            btnGenerate.Text = "GENERATE UUID";
+            btnGenerate.UseVisualStyleBackColor = true;
+            btnGenerate.Click += btnGenerate_Click;
             // 
             // lblUuid
             // 
-            this.lblUuid.Location = new System.Drawing.Point(10, 211);
-            this.lblUuid.Name = "lblUuid";
-            this.lblUuid.Size = new System.Drawing.Size(150, 23);
-            this.lblUuid.TabIndex = 12;
-            this.lblUuid.Text = "UUID:";
-            this.lblUuid.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            lblUuid.Location = new Point(10, 211);
+            lblUuid.Name = "lblUuid";
+            lblUuid.Size = new Size(88, 23);
+            lblUuid.TabIndex = 12;
+            lblUuid.Text = "UUID:";
+            lblUuid.TextAlign = ContentAlignment.MiddleRight;
             // 
             // txtUuid
             // 
-            this.txtUuid.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtUuid.Location = new System.Drawing.Point(170, 211);
-            this.txtUuid.Name = "txtUuid";
-            this.txtUuid.ReadOnly = true;
-            this.txtUuid.Size = new System.Drawing.Size(360, 23);
-            this.txtUuid.TabIndex = 13;
+            txtUuid.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            txtUuid.Location = new Point(104, 207);
+            txtUuid.Name = "txtUuid";
+            txtUuid.ReadOnly = true;
+            txtUuid.Size = new Size(368, 23);
+            txtUuid.TabIndex = 13;
             // 
             // lblIsoPreview
             // 
-            this.lblIsoPreview.Location = new System.Drawing.Point(10, 179);
-            this.lblIsoPreview.Name = "lblIsoPreview";
-            this.lblIsoPreview.Size = new System.Drawing.Size(150, 23);
-            this.lblIsoPreview.TabIndex = 14;
-            this.lblIsoPreview.Text = "UUID SEED STRING:";
-            this.lblIsoPreview.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            lblIsoPreview.Location = new Point(10, 179);
+            lblIsoPreview.Name = "lblIsoPreview";
+            lblIsoPreview.Size = new Size(88, 23);
+            lblIsoPreview.TabIndex = 14;
+            lblIsoPreview.Text = "UUID SEED STRING:";
+            lblIsoPreview.TextAlign = ContentAlignment.MiddleRight;
             // 
             // txtIsoPreview
             // 
-            this.txtIsoPreview.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtIsoPreview.Location = new System.Drawing.Point(170, 179);
-            this.txtIsoPreview.Name = "txtIsoPreview";
-            this.txtIsoPreview.ReadOnly = true;
-            this.txtIsoPreview.Size = new System.Drawing.Size(360, 23);
-            this.txtIsoPreview.TabIndex = 15;
+            txtIsoPreview.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            txtIsoPreview.Location = new Point(104, 175);
+            txtIsoPreview.Name = "txtIsoPreview";
+            txtIsoPreview.ReadOnly = true;
+            txtIsoPreview.Size = new Size(368, 23);
+            txtIsoPreview.TabIndex = 15;
             // 
             // lblAirportInfo
             // 
-            this.lblAirportInfo.AutoSize = true;
-            this.lblAirportInfo.ForeColor = System.Drawing.SystemColors.GrayText;
-            this.lblAirportInfo.Location = new System.Drawing.Point(226, 83);
-            this.lblAirportInfo.Name = "lblAirportInfo";
-            this.lblAirportInfo.Size = new System.Drawing.Size(0, 15);
-            this.lblAirportInfo.TabIndex = 16;
+            lblAirportInfo.AutoSize = true;
+            lblAirportInfo.ForeColor = SystemColors.GrayText;
+            lblAirportInfo.Location = new Point(226, 83);
+            lblAirportInfo.Name = "lblAirportInfo";
+            lblAirportInfo.Size = new Size(0, 15);
+            lblAirportInfo.TabIndex = 16;
             // 
             // lblAirportSource
             // 
-            this.lblAirportSource.AutoSize = true;
-            this.lblAirportSource.ForeColor = System.Drawing.SystemColors.GrayText;
-            this.lblAirportSource.Location = new System.Drawing.Point(226, 100);
-            this.lblAirportSource.Name = "lblAirportSource";
-            this.lblAirportSource.Size = new System.Drawing.Size(0, 12);
-            this.lblAirportSource.TabIndex = 17;
+            lblAirportSource.AutoSize = true;
+            lblAirportSource.ForeColor = SystemColors.GrayText;
+            lblAirportSource.Location = new Point(226, 100);
+            lblAirportSource.Name = "lblAirportSource";
+            lblAirportSource.Size = new Size(0, 15);
+            lblAirportSource.TabIndex = 17;
             // 
             // lblOperatorInfo
             // 
-            this.lblOperatorInfo.AutoSize = true;
-            this.lblOperatorInfo.ForeColor = System.Drawing.SystemColors.GrayText;
-            this.lblOperatorInfo.Location = new System.Drawing.Point(226, 19);
-            this.lblOperatorInfo.Name = "lblOperatorInfo";
-            this.lblOperatorInfo.Size = new System.Drawing.Size(0, 15);
-            this.lblOperatorInfo.TabIndex = 17;
+            lblOperatorInfo.AutoSize = true;
+            lblOperatorInfo.ForeColor = SystemColors.GrayText;
+            lblOperatorInfo.Location = new Point(226, 19);
+            lblOperatorInfo.Name = "lblOperatorInfo";
+            lblOperatorInfo.Size = new Size(0, 15);
+            lblOperatorInfo.TabIndex = 17;
             // 
             // monthCalendar
             // 
-            this.monthCalendar.MaxSelectionCount = 1;
-            this.monthCalendar.Name = "monthCalendar";
-            this.monthCalendar.TabIndex = 18;
-            this.monthCalendar.DateSelected += new System.Windows.Forms.DateRangeEventHandler(this.monthCalendar_DateSelected);
+            monthCalendar.Location = new Point(186, 43);
+            monthCalendar.MaxSelectionCount = 1;
+            monthCalendar.Name = "monthCalendar";
+            monthCalendar.TabIndex = 18;
+            monthCalendar.DateSelected += monthCalendar_DateSelected;
             // 
             // infoIcon
             // 
-            this.infoIcon.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.infoIcon.AutoSize = true;
-            this.infoIcon.ForeColor = System.Drawing.Color.Silver;
-            this.infoIcon.Location = new System.Drawing.Point(515, 9);
-            this.infoIcon.Name = "infoIcon";
-            this.infoIcon.Size = new System.Drawing.Size(22, 15);
-            this.infoIcon.TabIndex = 19;
-            this.infoIcon.Text = "🛈";
+            infoIcon.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            infoIcon.AutoSize = true;
+            infoIcon.ForeColor = Color.Silver;
+            infoIcon.Location = new Point(457, 9);
+            infoIcon.Name = "infoIcon";
+            infoIcon.Size = new Size(17, 15);
+            infoIcon.TabIndex = 19;
+            infoIcon.Text = "🛈";
             // 
-            
             // themeIcon
             // 
-            this.themeIcon.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.themeIcon.AutoSize = true;
-            this.themeIcon.ForeColor = System.Drawing.Color.Silver;
-            this.themeIcon.Location = new System.Drawing.Point(490, 9);
-            this.themeIcon.Name = "themeIcon";
-            this.themeIcon.Size = new System.Drawing.Size(22, 15);
-            this.themeIcon.TabIndex = 20;
-            this.themeIcon.Text = "◐";
-// MainForm
+            themeIcon.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            themeIcon.AutoSize = true;
+            themeIcon.ForeColor = Color.Silver;
+            themeIcon.Location = new Point(432, 9);
+            themeIcon.Name = "themeIcon";
+            themeIcon.Size = new Size(17, 15);
+            themeIcon.TabIndex = 20;
+            themeIcon.Text = "◐";
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(544, 256);
-                        this.Controls.Add(this.infoIcon);
-            this.Controls.Add(this.themeIcon);
-            this.Controls.Add(this.monthCalendar);
-            this.Controls.Add(this.lblOperatorInfo);
-            this.Controls.Add(this.lblAirportSource);
-            this.Controls.Add(this.lblAirportInfo);
-            this.Controls.Add(this.txtIsoPreview);
-            this.Controls.Add(this.lblIsoPreview);
-            this.Controls.Add(this.txtUuid);
-            this.Controls.Add(this.lblUuid);
-            this.Controls.Add(this.btnGenerate);
-            this.Controls.Add(this.txtTime);
-            this.Controls.Add(this.btnCalendar);
-            this.Controls.Add(this.txtDate);
-            this.Controls.Add(this.txtStation);
-            this.Controls.Add(this.txtReg);
-            this.Controls.Add(this.txtCustomerCode);
-            this.Controls.Add(this.lblTime);
-            this.Controls.Add(this.lblDate);
-            this.Controls.Add(this.lblStation);
-            this.Controls.Add(this.lblReg);
-            this.Controls.Add(this.lblCustomer);
-            this.MinimumSize = new System.Drawing.Size(560, 295);
-            this.Name = "MainForm";
-            this.Text = "Ground Time UUID Generator";
-            this.ResumeLayout(false);
-            this.PerformLayout();
+            // label1
+            // 
+            label1.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            label1.AutoSize = true;
+            label1.Location = new Point(453, 210);
+            label1.Name = "label1";
+            label1.Size = new Size(19, 15);
+            label1.TabIndex = 21;
+            label1.Text = "⧉";
+            label1.TextAlign = ContentAlignment.MiddleCenter;
+            label1.Click += btnCopyUuid_Click;
+            // 
+            // MainForm
+            // 
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(484, 256);
+            Controls.Add(label1);
+            Controls.Add(infoIcon);
+            Controls.Add(themeIcon);
+            Controls.Add(monthCalendar);
+            Controls.Add(lblOperatorInfo);
+            Controls.Add(lblAirportSource);
+            Controls.Add(lblAirportInfo);
+            Controls.Add(txtIsoPreview);
+            Controls.Add(lblIsoPreview);
+            Controls.Add(txtUuid);
+            Controls.Add(lblUuid);
+            Controls.Add(btnGenerate);
+            Controls.Add(txtTime);
+            Controls.Add(btnCalendar);
+            Controls.Add(txtDate);
+            Controls.Add(txtStation);
+            Controls.Add(txtReg);
+            Controls.Add(txtCustomerCode);
+            Controls.Add(lblTime);
+            Controls.Add(lblDate);
+            Controls.Add(lblStation);
+            Controls.Add(lblReg);
+            Controls.Add(lblCustomer);
+            MinimumSize = new Size(500, 295);
+            Name = "MainForm";
+            Text = "Ground Time UUID Generator";
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -298,5 +310,6 @@ namespace GroundTimeUuidGui
         private System.Windows.Forms.MonthCalendar monthCalendar;
         private System.Windows.Forms.Label infoIcon;
         private System.Windows.Forms.Label themeIcon;
+        private Label label1;
     }
 }

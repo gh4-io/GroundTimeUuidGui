@@ -546,5 +546,29 @@ namespace GroundTimeUuidGui
         }
 
         #endregion
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnCopyUuid_Click(object sender, EventArgs e)
+        {
+            string text = txtUuid.Text.Trim();
+
+            if (string.IsNullOrEmpty(text))
+                return; // silently do nothing
+
+            try
+            {
+                Clipboard.SetText(text);
+                // No sound, no popup, no visual feedback
+            }
+            catch
+            {
+                // Still stay silent — clipboard failures are rare and not user-critical
+            }
+        }
+
     }
 }
